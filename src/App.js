@@ -1,1 +1,3 @@
-export const App = () => <div/>;
+import { Layout } from './components';
+
+export const App = () => <Layout />;

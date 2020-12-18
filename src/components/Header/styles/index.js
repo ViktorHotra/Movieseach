@@ -1,0 +1,1 @@
+export { StyledHeader } from './StyledHeader';
