@@ -1,1 +1,0 @@
-export { StyledFooter } from './StyledFooter';
