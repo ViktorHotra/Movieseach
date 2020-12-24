@@ -1,9 +1,11 @@
 import { Header } from '../Header';
-import { StyledLayout } from './styles';
+import { Footer } from '../Footer';
+import { StyledLayout, StyledMain } from './styles';
 
 export const Layout = ({ children }) => (
     <StyledLayout>
-        <Header></Header>
-        {children}
+        <Header />
+        <StyledMain>{children}</StyledMain>
+        <Footer />
     </StyledLayout>
 );
