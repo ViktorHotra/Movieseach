@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios';
 
 export const LayoutContainer = ({ children }) => {
     const [search, setSearch] = useState('');
@@ -9,14 +10,31 @@ export const LayoutContainer = ({ children }) => {
         setSearch(e.target.value);
     };
 
-    const handleSearchMovies = () => {
+    const handleSearchMovies = async () => {
         setIsSearching(true);
 
-        // send request...
-        setTimeout(() => {
-            setMovies([{ id: 1 }, { id: 2 }]);
-            setIsSearching(false);
-        }, 3000);
+        const response = await axios.get(
+            'https://jsonplaceholder.typicode.com/users'
+        );
+
+        // try {
+        //     const response = await fetch(
+        //         'https://jsonplaceholder.typicode.com/users'
+        //     );
+        //     const users = await response.json();
+        //
+        //     setMovies(users);
+        //     setIsSearching(false);
+        // } catch (e) {
+        //     console.log('[e]', e);
+        // }
+
+        // fetch('https://jsonplaceholder.typicode.com/users')
+        //     .then(response => response.json())
+        //     .then(users => {
+        //         setMovies(users);
+        //         setIsSearching(false);
+        //     });
     };
 
     return children({

@@ -15,29 +15,12 @@ export const App = () => (
                     <span>Movies list:</span>
 
                     {movies.map(movie => (
-                        <div key={movie.id}>Movie ID: {movie.id}</div>
+                        <div key={movie.id}>
+                            <pre>{JSON.stringify(movie, null, 4)}</pre>
+                        </div>
                     ))}
                 </Layout>
             )}
         </LayoutContainer>
     </ThemeProvider>
 );
-
-//Switch to another theme
-// const [theme, setTheme] = useState(darkTheme);
-//
-// const handleSwitchTheme = () => {
-//     setTheme(lightTheme);
-// };
-//
-// return (
-//     <ThemeProvider theme={theme}>
-//         <GlobalStyles />
-//         <Layout>
-//             <span>Content</span>
-//             <button type="button" onClick={handleSwitchTheme}>
-//                 Switch to Alt Theme
-//             </button>
-//         </Layout>
-//     </ThemeProvider>
-// );
