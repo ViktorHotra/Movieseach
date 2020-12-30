@@ -2,6 +2,7 @@ import { ThemeProvider } from 'styled-components';
 
 import { Layout } from './components';
 import { LayoutContainer } from './containers';
+import { HomePage } from './pages';
 import { GlobalStyles } from './styles';
 import { darkTheme } from './themes';
 
@@ -12,13 +13,7 @@ export const App = () => (
         <LayoutContainer>
             {({ movies, ...other }) => (
                 <Layout {...other}>
-                    <span>Movies list:</span>
-
-                    {movies.map(movie => (
-                        <div key={movie.id}>
-                            <pre>{JSON.stringify(movie, null, 4)}</pre>
-                        </div>
-                    ))}
+                    <HomePage movies={movies} />
                 </Layout>
             )}
         </LayoutContainer>
