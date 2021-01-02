@@ -11,7 +11,7 @@ export const HomePage = ({ movies }) => (
             const imageUrl = REACT_APP_STORAGE_URL + poster_path;
             return (
                 <StyledCard key={id} $imageUrl={imageUrl}>
-                    <Link href="/">{original_title}</Link>
+                    <Link to="/">{original_title}</Link>
                 </StyledCard>
             );
         })}

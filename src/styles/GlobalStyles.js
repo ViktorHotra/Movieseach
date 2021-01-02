@@ -34,6 +34,10 @@ export const GlobalStyles = createGlobalStyle`
         outline: 0;
     }
     
+    ul {
+        list-style-type: none;
+    }
+    
     #root {
         height: 100%;
     }
