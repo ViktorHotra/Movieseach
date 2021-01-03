@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import PT from 'prop-types';
 import axios from 'axios';
 
@@ -15,14 +15,30 @@ export const MovieDetailsPageContainer = ({
     const [movie, setMovie] = useState(null);
     const [similarMovies, setSimilarMovies] = useState([]);
     const { movieId } = useParams();
+    const history = useHistory();
 
     useEffect(() => {
+        const similarMoviesUrl = `${REACT_APP_API_URL}/movie/${movieId}/similar?api_key=${REACT_APP_MOVIE_API_KEY}`;
         const foundMovie = movies.find(({ id }) => id === +movieId);
 
-        if (foundMovie) return setMovie(foundMovie);
+        if (foundMovie) {
+            (async () => {
+                try {
+                    const {
+                        data: { results }
+                    } = await axios.get(similarMoviesUrl);
+
+                    setMovie(foundMovie);
+                    setSimilarMovies(results.slice(0, 5));
+                } catch (e) {
+                    console.error(e);
+                    history.push('/');
+                }
+            })();
+            return;
+        }
 
         const movieUrl = `${REACT_APP_API_URL}/movie/${movieId}?api_key=${REACT_APP_MOVIE_API_KEY}`;
-        const similarMoviesUrl = `${REACT_APP_API_URL}/movie/${movieId}/similar?api_key=${REACT_APP_MOVIE_API_KEY}`;
         (async () => {
             try {
                 const [
@@ -42,9 +58,11 @@ export const MovieDetailsPageContainer = ({
                 setSimilarMovies(results.slice(0, 5));
             } catch (e) {
                 console.error(e);
+                history.push('/');
             }
         })();
-    }, [movieId, movies]);
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [movieId]);
 
     // TODO Add loader
     if (!movie || !similarMovies.length) return null;
