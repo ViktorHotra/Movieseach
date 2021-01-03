@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 
-import { StyledLabel } from '../../../styles';
+import { StyledLabel, StyledFormError } from '../../../styles';
 
 export const StyledFormGroup = styled.div`
     &:not(:last-child) {
@@ -9,5 +9,9 @@ export const StyledFormGroup = styled.div`
 
     ${StyledLabel} {
         margin-bottom: ${props => props.theme.margin.xs};
+    }
+
+    ${StyledFormError} {
+        margin-top: ${props => props.theme.margin.xs};
     }
 `;

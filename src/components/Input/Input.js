@@ -1,10 +1,12 @@
+import { forwardRef } from 'react';
+
 import PT from 'prop-types';
 
 import { StyledInput } from './styles';
 
-export const Input = ({ autoComplete = 'off', ...other }) => (
-    <StyledInput autoComplete={autoComplete} {...other} />
-);
+export const Input = forwardRef(({ autoComplete = 'off', ...other }, ref) => (
+    <StyledInput ref={ref} autoComplete={autoComplete} {...other} />
+));
 
 Input.propTypes = {
     /**
