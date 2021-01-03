@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import { Layout } from './components';
 import { LayoutContainer, MovieDetailsPageContainer } from './containers';
-import { HomePage, MovieDetailsPage } from './pages';
+import { HomePage, AuthPage } from './pages';
 import { GlobalStyles } from './styles';
 import { darkTheme } from './themes';
 
@@ -20,6 +20,10 @@ export const App = () => (
                 {({ movies, ...other }) => (
                     <Layout {...other}>
                         <Switch>
+                            <Route path="/auth">
+                                <AuthPage />
+                            </Route>
+
                             <Route path={['/favorite', '/profile', '/logout']}>
                                 <FakePage />
                             </Route>

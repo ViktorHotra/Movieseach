@@ -24,6 +24,11 @@ const LINKS = [
         id: 4,
         url: '/logout',
         title: 'Logout'
+    },
+    {
+        id: 5,
+        url: '/auth',
+        title: 'Auth'
     }
 ];
 
