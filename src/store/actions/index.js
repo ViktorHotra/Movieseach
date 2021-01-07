@@ -1,0 +1,1 @@
+export { updateFirstNameAndLastName } from './auth';

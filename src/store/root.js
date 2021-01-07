@@ -1,24 +1,7 @@
-const initialState = {
-    firstName: '',
-    lastName: '',
-    age: null
-};
+import { combineReducers } from 'redux';
 
-export const rootReducer = (state = initialState, action) => {
-    const { type, payload } = action;
+import { authReducer } from './reducers';
 
-    switch (type) {
-        case 'UPDATE_FIRST_NAME_AND_LAST_NAME': {
-            const { newFirstName, newLastName } = payload;
-
-            return {
-                ...state,
-                firstName: newFirstName,
-                lastName: newLastName
-            };
-        }
-
-        default:
-            return state;
-    }
-};
+export const rootReducer = combineReducers({
+    auth: authReducer
+});
