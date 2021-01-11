@@ -143,7 +143,9 @@ export const AuthPage = () => {
             ...values,
             returnSecureToken: true
         };
-        const url = `${authUrl}signInWithPassword?key=${apiKey}`;
+        const mode =
+            activeTab === tabs.SIGN_IN ? 'signInWithPassword' : 'signUp';
+        const url = `${authUrl}${mode}?key=${apiKey}`;
 
         try {
             const {

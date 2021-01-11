@@ -1,23 +1,12 @@
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import { createStore, applyMiddleware, compose } from 'redux';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
+import { useSelector } from 'react-redux';
 
 import { Layout } from './components';
 import { LayoutContainer, MovieDetailsPageContainer } from './containers';
 import { HomePage, AuthPage } from './pages';
 import { GlobalStyles } from './styles';
-import { rootReducer } from './store';
 import { darkTheme } from './themes';
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const middlewares = [thunk];
-
-const store = createStore(
-    rootReducer,
-    composeEnhancers(applyMiddleware(...middlewares))
-);
 
 const FakePage = props => {
     return <p>Hello! I'm a fake page!</p>;
@@ -33,8 +22,12 @@ const FakePage = props => {
 //     return <Redirect to="/auth" />;
 // };
 
-export const App = () => (
-    <Provider store={store}>
+const authSelector = state => !!state.auth.idToken;
+
+export const App = () => {
+    const isAuthenticated = useSelector(authSelector);
+
+    return (
         <BrowserRouter>
             <ThemeProvider theme={darkTheme}>
                 <GlobalStyles />
@@ -43,17 +36,21 @@ export const App = () => (
                     {({ movies, ...other }) => (
                         <Layout {...other}>
                             <Switch>
-                                <Route path={['/favorite', '/profile']}>
-                                    <FakePage />
-                                </Route>
+                                {isAuthenticated && (
+                                    <Route path={['/favorite', '/profile']}>
+                                        <FakePage />
+                                    </Route>
+                                )}
 
                                 {/*<Route path="/logout">*/}
                                 {/*    <LogoutPage />*/}
                                 {/*</Route>*/}
 
-                                <Route path="/auth">
-                                    <AuthPage />
-                                </Route>
+                                {!isAuthenticated && (
+                                    <Route path="/auth">
+                                        <AuthPage />
+                                    </Route>
+                                )}
 
                                 <Route path="/movie/:movieId" exact>
                                     <MovieDetailsPageContainer
@@ -72,5 +69,5 @@ export const App = () => (
                 </LayoutContainer>
             </ThemeProvider>
         </BrowserRouter>
-    </Provider>
-);
+    );
+};
