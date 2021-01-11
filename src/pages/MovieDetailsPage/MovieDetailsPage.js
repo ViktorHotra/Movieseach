@@ -1,5 +1,4 @@
 import PT from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
 
 import { Button, Link } from '../../components';
 import {
@@ -14,15 +13,8 @@ import {
     StyledDetailsTop,
     StyledSimilarMoviesWrapper
 } from './styles';
-import { updateFirstNameAndLastName } from '../../store';
 
 const { REACT_APP_STORAGE_URL } = process.env;
-
-const authSelector = state => ({
-    firstName: state.auth.firstName,
-    lastName: state.auth.lastName,
-    age: state.auth.age
-});
 
 export const MovieDetailsPage = ({ movie, similarMovies }) => {
     const {
@@ -32,17 +24,6 @@ export const MovieDetailsPage = ({ movie, similarMovies }) => {
         release_date,
         overview
     } = movie;
-
-    const { firstName, lastName, age } = useSelector(authSelector);
-    const dispatch = useDispatch();
-
-    const onUpdateFirstNameAndLastName = (newFirstname, newLastName) => {
-        dispatch(updateFirstNameAndLastName(newFirstname, newLastName));
-    };
-
-    console.log(
-        `Hello my name is ${firstName} ${lastName} and my age is ${age}`
-    );
 
     const backdropUrl = REACT_APP_STORAGE_URL + backdrop_path;
     const posterUrl = REACT_APP_STORAGE_URL + poster_path;
@@ -64,13 +45,7 @@ export const MovieDetailsPage = ({ movie, similarMovies }) => {
                             <p>{overview}</p>
                         </StyledInfo>
 
-                        <Button
-                            onClick={() =>
-                                onUpdateFirstNameAndLastName('Bob', 'Brown')
-                            }
-                        >
-                            Update firstname and last name
-                        </Button>
+                        <Button>Add to Favorite</Button>
                     </StyledInfoWrapper>
                 </StyledDetailsTop>
 
@@ -108,5 +83,9 @@ MovieDetailsPage.propTypes = {
         backdrop_path: PT.string,
         overview: PT.string.isRequired,
         release_date: PT.string.isRequired
-    }).isRequired
+    }).isRequired,
+    /**
+     * a list of similar movies
+     */
+    similarMovies: PT.arrayOf(PT.object).isRequired
 };

@@ -1,1 +1,1 @@
-export { updateFirstNameAndLastName } from './auth';
+export { authenticateUser, logoutUser } from './auth';

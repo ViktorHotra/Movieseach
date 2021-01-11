@@ -1,34 +1,37 @@
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 
 import { Layout } from './components';
 import { LayoutContainer, MovieDetailsPageContainer } from './containers';
 import { HomePage, AuthPage } from './pages';
 import { GlobalStyles } from './styles';
-import { rootReducer } from './store';
+import { rootReducer, logoutUser } from './store';
 import { darkTheme } from './themes';
 
-const store = createStore(rootReducer);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const middlewares = [thunk];
 
-// console.log(store);
-//
-// console.log(store.getState());
-//
-// store.dispatch({
-//     type: 'UPDATE_FIRST_NAME_AND_LAST_NAME',
-//     payload: {
-//         newFirstName: 'Mike',
-//         newLastName: 'Smith'
-//     }
-// });
-//
-// console.log(store.getState());
+const store = createStore(
+    rootReducer,
+    composeEnhancers(applyMiddleware(...middlewares))
+);
 
 const FakePage = props => {
     return <p>Hello! I'm a fake page!</p>;
 };
+
+// const LogoutPage = () => {
+//     const dispatch = useDispatch();
+//
+//     useEffect(() => {
+//         dispatch(logoutUser());
+//     }, []);
+//
+//     return <Redirect to="/auth" />;
+// };
 
 export const App = () => (
     <Provider store={store}>
@@ -40,14 +43,16 @@ export const App = () => (
                     {({ movies, ...other }) => (
                         <Layout {...other}>
                             <Switch>
-                                <Route path="/auth">
-                                    <AuthPage />
+                                <Route path={['/favorite', '/profile']}>
+                                    <FakePage />
                                 </Route>
 
-                                <Route
-                                    path={['/favorite', '/profile', '/logout']}
-                                >
-                                    <FakePage />
+                                {/*<Route path="/logout">*/}
+                                {/*    <LogoutPage />*/}
+                                {/*</Route>*/}
+
+                                <Route path="/auth">
+                                    <AuthPage />
                                 </Route>
 
                                 <Route path="/movie/:movieId" exact>

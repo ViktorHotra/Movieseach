@@ -1,5 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import { Input, Button } from '../../components';
 import {
@@ -14,6 +17,7 @@ import {
     StyledFieldset,
     StyledFormGroup
 } from './styles';
+import { authenticateUser } from '../../store';
 
 const PASSWORD_MIN_LENGTH = 6;
 
@@ -44,11 +48,44 @@ const SIGN_IN_FIELDS = [
     }
 ];
 
-export const AuthPage = () => {
-    const { register, handleSubmit, errors } = useForm();
+const {
+    REACT_APP_FIREBASE_AUTH_URL: authUrl,
+    REACT_APP_FIREBASE_API_KEY: apiKey
+} = process.env;
 
-    const onSubmit = values => console.log(values);
+const authSelector = state => !!state.auth.idToken;
+
+export const AuthPage = () => {
+    const { register, handleSubmit, errors } = useForm({
+        defaultValues: {
+            email: 'john@gmail.com',
+            password: '123456'
+        }
+    });
+    const isAuthenticated = useSelector(authSelector);
+    const dispatch = useDispatch();
+
+    const onSubmit = async values => {
+        const user = {
+            ...values,
+            returnSecureToken: true
+        };
+        const url = `${authUrl}signInWithPassword?key=${apiKey}`;
+
+        try {
+            const {
+                data: { idToken, localId }
+            } = await axios.post(url, user);
+
+            dispatch(authenticateUser(idToken, localId));
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
     const onError = errors => console.log(errors);
+
+    if (isAuthenticated) return <Redirect to="/" />;
 
     return (
         <StyledWrapper>

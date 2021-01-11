@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
-import { useDocumentTitle } from '../../hooks';
+import { useDocumentTitle, useAuthenticateUser } from '../../hooks';
 
 const { REACT_APP_API_URL, REACT_APP_MOVIE_API_KEY } = process.env;
 
@@ -12,6 +12,7 @@ export const LayoutContainer = ({ children }) => {
     const [movies, setMovies] = useState([]);
     const history = useHistory();
     useDocumentTitle();
+    useAuthenticateUser();
 
     const handleChangeSearch = e => {
         setSearch(e.target.value);
