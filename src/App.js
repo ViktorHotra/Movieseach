@@ -8,7 +8,7 @@ import { Layout } from './components';
 import { LayoutContainer, MovieDetailsPageContainer } from './containers';
 import { HomePage, AuthPage } from './pages';
 import { GlobalStyles } from './styles';
-import { rootReducer, logoutUser } from './store';
+import { rootReducer } from './store';
 import { darkTheme } from './themes';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

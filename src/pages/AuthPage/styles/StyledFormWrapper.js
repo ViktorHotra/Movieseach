@@ -8,11 +8,11 @@ const maxWidth = '50rem';
 export const StyledFormWrapper = styled.div`
     max-width: ${maxWidth};
     width: 100%;
-    background-color: ${props => props.theme.lightColors[600]};
-    border-radius: 0 0 0.5rem 0.5rem;
+    border-radius: 0.5rem;
     box-shadow: 0 0.6rem 1rem ${props => props.theme.darkColors[800]};
 
     ${StyledForm} {
+        background-color: ${props => props.theme.lightColors[600]};
         padding: ${props => props.theme.padding.lg};
     }
 

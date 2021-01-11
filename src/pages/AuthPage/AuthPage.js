@@ -15,8 +15,11 @@ import {
     StyledWrapper,
     StyledFormWrapper,
     StyledFieldset,
-    StyledFormGroup
+    StyledFormGroup,
+    StyledTabs,
+    StyledTab
 } from './styles';
+import { useTabs } from '../../hooks';
 import { authenticateUser } from '../../store';
 
 const PASSWORD_MIN_LENGTH = 6;
@@ -48,6 +51,73 @@ const SIGN_IN_FIELDS = [
     }
 ];
 
+const SIGN_UP_FIELDS = [
+    {
+        id: 'firstName',
+        label: 'First name',
+        type: 'text',
+        name: 'firstName',
+        placeholder: 'First name',
+        validationRules: {
+            required: 'First name is required'
+        }
+    },
+    {
+        id: 'lastName',
+        label: 'Last name',
+        type: 'text',
+        name: 'lastName',
+        placeholder: 'Last name',
+        validationRules: {
+            required: 'Last name is required'
+        }
+    },
+    {
+        id: 'email',
+        label: 'E-mail',
+        type: 'email',
+        name: 'email',
+        placeholder: 'E-mail',
+        validationRules: {
+            required: 'E-mail is required'
+        }
+    },
+    {
+        id: 'age',
+        label: 'Age',
+        type: 'number',
+        name: 'age',
+        placeholder: 'Age',
+        validationRules: {
+            required: 'Age is required'
+        }
+    },
+    {
+        id: 'password',
+        label: 'Password',
+        type: 'password',
+        name: 'password',
+        placeholder: 'Password',
+        validationRules: {
+            required: 'Password is required',
+            minLength: {
+                value: PASSWORD_MIN_LENGTH,
+                message: `Password should be at least ${PASSWORD_MIN_LENGTH} characters long`
+            }
+        }
+    },
+    {
+        id: 'confirmPassword',
+        label: 'Confirm password',
+        type: 'password',
+        name: 'confirmPassword',
+        placeholder: 'Confirm password',
+        validationRules: {
+            required: 'Confirm password is required'
+        }
+    }
+];
+
 const {
     REACT_APP_FIREBASE_AUTH_URL: authUrl,
     REACT_APP_FIREBASE_API_KEY: apiKey
@@ -62,8 +132,11 @@ export const AuthPage = () => {
             password: '123456'
         }
     });
+    const { activeTab, tabs, onSwitchTab } = useTabs();
     const isAuthenticated = useSelector(authSelector);
     const dispatch = useDispatch();
+
+    if (isAuthenticated) return <Redirect to="/" />;
 
     const onSubmit = async values => {
         const user = {
@@ -85,18 +158,33 @@ export const AuthPage = () => {
 
     const onError = errors => console.log(errors);
 
-    if (isAuthenticated) return <Redirect to="/" />;
+    const fields = activeTab === tabs.SIGN_IN ? SIGN_IN_FIELDS : SIGN_UP_FIELDS;
+    const legend = activeTab === tabs.SIGN_IN ? 'Sign in' : 'Sign up';
 
     return (
         <StyledWrapper>
             <StyledFormWrapper>
-                <div>Tabs</div>
+                <StyledTabs>
+                    <StyledTab
+                        $active={activeTab === tabs.SIGN_IN}
+                        onClick={() => onSwitchTab(tabs.SIGN_IN)}
+                    >
+                        Sign in
+                    </StyledTab>
+
+                    <StyledTab
+                        $active={activeTab === tabs.SIGN_UP}
+                        onClick={() => onSwitchTab(tabs.SIGN_UP)}
+                    >
+                        Sign up
+                    </StyledTab>
+                </StyledTabs>
 
                 <StyledForm onSubmit={handleSubmit(onSubmit, onError)}>
                     <StyledFieldset>
-                        <StyledLegend>Sign In</StyledLegend>
+                        <StyledLegend>{legend}</StyledLegend>
 
-                        {SIGN_IN_FIELDS.map(
+                        {fields.map(
                             ({
                                 id,
                                 label,

@@ -5,4 +5,5 @@ export const StyledWrapper = styled.div`
     justify-content: center;
     align-items: center;
     height: 100%;
+    padding: ${props => props.theme.padding.xl};
 `;
