@@ -23,6 +23,7 @@ import { useTabs } from '../../hooks';
 import { authenticateUser } from '../../store';
 
 const PASSWORD_MIN_LENGTH = 6;
+const EMAIL_REG_EXP = /^[a-zA-Z._-]+@[a-z]+\.[a-z]{2,3}$/;
 
 const SIGN_IN_FIELDS = [
     {
@@ -32,7 +33,11 @@ const SIGN_IN_FIELDS = [
         name: 'email',
         placeholder: 'E-mail',
         validationRules: {
-            required: 'E-mail is required'
+            required: 'E-mail is required',
+            pattern: {
+                value: EMAIL_REG_EXP,
+                message: 'Provided value should be an e-mail address'
+            }
         }
     },
     {
@@ -79,7 +84,11 @@ const SIGN_UP_FIELDS = [
         name: 'email',
         placeholder: 'E-mail',
         validationRules: {
-            required: 'E-mail is required'
+            required: 'E-mail is required',
+            pattern: {
+                value: EMAIL_REG_EXP,
+                message: 'Provided value should be an e-mail address'
+            }
         }
     },
     {
