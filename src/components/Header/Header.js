@@ -18,21 +18,23 @@ export const Header = ({
 }) => (
     <StyledHeader>
         <StyledHeaderWidthLimiter>
-            <StyledSearch>
-                <StyledInputWrapper>
-                    <Input
-                        type="text"
-                        name="search"
-                        placeholder="Search movies"
-                        value={search}
-                        onChange={onChangeSearch}
-                    />
-                </StyledInputWrapper>
+            <form onSubmit={onSearchMovies}>
+                <StyledSearch>
+                    <StyledInputWrapper>
+                        <Input
+                            type="text"
+                            name="search"
+                            placeholder="Search movies"
+                            value={search}
+                            onChange={onChangeSearch}
+                        />
+                    </StyledInputWrapper>
 
-                <Button disabled={isSearching} onClick={onSearchMovies}>
-                    {isSearching ? 'Searching' : 'Search'}
-                </Button>
-            </StyledSearch>
+                    <Button disabled={isSearching} type="submit">
+                        {isSearching ? 'Searching' : 'Search'}
+                    </Button>
+                </StyledSearch>
+            </form>
 
             <NavBar />
         </StyledHeaderWidthLimiter>
