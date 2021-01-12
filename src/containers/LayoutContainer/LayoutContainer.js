@@ -38,11 +38,16 @@ export const LayoutContainer = ({ children }) => {
         }
     };
 
+    const handleFormSubmit = () => {
+        handleSearchMovies();
+        return false;
+    };
+
     return children({
         search,
         isSearching,
         movies,
         onChangeSearch: handleChangeSearch,
-        onSearchMovies: handleSearchMovies
+        onSearchMovies: handleFormSubmit
     });
 };
